@@ -8,7 +8,7 @@ import java.util.Base64;
 
 public class API {
 
-    private static Requests requests = new Requests();
+    private static final Requests requests = new Requests();
 
     public static String getMojangStatus() {
         return requests.GetRequest("https://status.mojang.com/check");
