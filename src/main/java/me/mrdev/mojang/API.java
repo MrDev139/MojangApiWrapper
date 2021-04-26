@@ -9,6 +9,7 @@ import java.util.Base64;
 public class API {
 
     private static final Requests requests = new Requests();
+    private static Gson gson = new Gson();
 
     public static String getMojangStatus() {
         return requests.GetRequest("https://status.mojang.com/check");
@@ -16,7 +17,7 @@ public class API {
 
     public static String getStringUUID(String username) {
         String uuid = getUUID(username);
-        JsonObject object = new Gson().fromJson(uuid, JsonObject.class);
+        JsonObject object = gson.fromJson(uuid, JsonObject.class);
         return object.get("id").getAsString();
     }
 
@@ -50,28 +51,28 @@ public class API {
 
     public static String getSkinURLByUsername(String username) {
         String textures = getTexturesByUsername(username , true);
-        JsonObject object = new Gson().fromJson(textures, JsonObject.class);
+        JsonObject object = gson.fromJson(textures, JsonObject.class);
         JsonArray array = object.getAsJsonArray("properties");
         return new String(Base64.getDecoder().decode(array.get(0).getAsJsonObject().get("value").getAsString()));
     }
 
     public static String getSkinURL(String uuid) {
         String textures = getTextures(uuid , true);
-        JsonObject object = new Gson().fromJson(textures, JsonObject.class);
+        JsonObject object = gson.fromJson(textures, JsonObject.class);
         JsonArray array = object.getAsJsonArray("properties");
         return new String(Base64.getDecoder().decode(array.get(0).getAsJsonObject().get("value").getAsString()));
     }
 
     public static String getSignature(String uuid) {
         String textures = getTextures(uuid , false);
-        JsonObject object = new Gson().fromJson(textures , JsonObject.class);
+        JsonObject object = gson.fromJson(textures , JsonObject.class);
         JsonArray array = object.getAsJsonArray("properties");
         return array.get(0).getAsJsonObject().get("signature").getAsString();
     }
 
     public static String getSignatureByUsername(String username) {
         String textures = getTexturesByUsername(username , false);
-        JsonObject object = new Gson().fromJson(textures , JsonObject.class);
+        JsonObject object = gson.fromJson(textures , JsonObject.class);
         JsonArray array = object.getAsJsonArray("properties");
         return array.get(0).getAsJsonObject().get("signature").getAsString();
     }
